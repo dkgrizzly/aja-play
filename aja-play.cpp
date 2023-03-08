@@ -241,8 +241,9 @@ HRESULT BuildGraph(IGraphBuilder* pGraph, int outType, int outCard, int outDevic
         }
 
         CHECK_HR(hr, _T("Can't create AJA Renderer Kona3G"));
-    } else {
-        switch (outCard*2+outDevice) {
+    }
+    else {
+        switch (outCard * 2 + outDevice) {
         case 0:
             hr = pAJARendererKona3G.CoCreateInstance(CLSID_AJAMRendererKona3G00);
             break;
@@ -277,41 +278,41 @@ HRESULT BuildGraph(IGraphBuilder* pGraph, int outType, int outCard, int outDevic
         CComPtr<IAJAMultiRender> pAJAMultiRender;
         hr = pAJARendererKona3G->QueryInterface(IID_PPV_ARGS(&pAJAMultiRender));
         CHECK_HR(hr, _T("Can't create AJA Renderer Kona3G Control Interface"));
-        
+
         switch (outPort) {
-            case 0:
-                pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_HDMI);
-                break;
-            case 1:
-                pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_ANALOG);
-                break;
-            case 2:
-                pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_SDI1);
-                break;
-            case 3:
-                pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_SDI2);
-                break;
-            case 4:
-                pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_SDI3);
-                break;
-            case 5:
-                pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_SDI4);
-                break;
-            case 6:
-                pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_SDI5);
-                break;
-            case 7:
-                pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_SDI6);
-                break;
-            case 8:
-                pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_SDI7);
-                break;
-            case 9:
-                pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_SDI8);
-                break;
-            default:
-                printf("Port %d is not valid.\n", outPort);
-                return E_INVALIDARG;
+        case 0:
+            pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_ANALOG);
+            break;
+        case 1:
+            pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_HDMI);
+            break;
+        case 2:
+            pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_SDI1);
+            break;
+        case 3:
+            pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_SDI2);
+            break;
+        case 4:
+            pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_SDI3);
+            break;
+        case 5:
+            pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_SDI4);
+            break;
+        case 6:
+            pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_SDI5);
+            break;
+        case 7:
+            pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_SDI6);
+            break;
+        case 8:
+            pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_SDI7);
+            break;
+        case 9:
+            pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_SDI8);
+            break;
+        default:
+            printf("Port %d is not valid.\n", outPort);
+            return E_INVALIDARG;
         }
     }
 
@@ -365,8 +366,8 @@ void usage(char* argv0)
     printf("\t-c <0-3>\tAJA Kona Card #\n");
     printf("\t-d <0-1>\tPlayback Engine\n");
     printf("\t-p <0-9>\tOutput Port\n");
-    printf("\t      0:\tHDMI\n");
-    printf("\t      1:\tANALOG\n");
+    printf("\t      0:\tANALOG\n");
+    printf("\t      1:\tHDMI\n");
     printf("\t    2-9:\tSDI 1 - SDI 8\n");
     printf("\n");
     printf("Example:\n\t%s test.avi\n", argv0);
@@ -390,26 +391,31 @@ int main(int argc, char* argv[])
         if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help") || !strcmp(argv[i], "/?")) {
             usage(argv[0]);
             return 0;
-        } else if (!strcmp(argv[i], "-m") || !strcmp(argv[i], "--multi")) {
+        }
+        else if (!strcmp(argv[i], "-m") || !strcmp(argv[i], "--multi")) {
             if (outType != -1) {
                 printf("Error! multiple output types specified.\n");
                 return -1;
             }
             outType = 1;
-        } else if (!strcmp(argv[i], "-s") || !strcmp(argv[i], "--single")) {
+        }
+        else if (!strcmp(argv[i], "-s") || !strcmp(argv[i], "--single")) {
             if (outType != -1) {
                 printf("Error! multiple output types specified.\n");
                 return -1;
             }
             outType = 0;
-        } else if (!strcmp(argv[i], "-c") || !strcmp(argv[i], "--card")) {
+        }
+        else if (!strcmp(argv[i], "-c") || !strcmp(argv[i], "--card")) {
             i++;
-            if(outCard != -1) {
+            if (outCard != -1) {
                 printf("Error! multiple cards specified.\n");
                 return -1;
-            } else if (i < argc) {
+            }
+            else if (i < argc) {
                 outCard = strtol(argv[i], NULL, 0);
-            } else {
+            }
+            else {
                 printf("Error! no card specified.\n");
                 return -1;
             }
@@ -417,14 +423,17 @@ int main(int argc, char* argv[])
                 printf("Error! card specified outside range.\n");
                 return -1;
             }
-        } else if (!strcmp(argv[i], "-d") || !strcmp(argv[i], "--dev")) {
+        }
+        else if (!strcmp(argv[i], "-d") || !strcmp(argv[i], "--dev")) {
             i++;
-            if(outDevice != -1) {
+            if (outDevice != -1) {
                 printf("Error! multiple devices specified.\n");
                 return -1;
-            } else if (i < argc) {
+            }
+            else if (i < argc) {
                 outDevice = strtol(argv[i], NULL, 0);
-            } else {
+            }
+            else {
                 printf("Error! no device specified.\n");
                 return -1;
             }
@@ -432,7 +441,8 @@ int main(int argc, char* argv[])
                 printf("Error! device specified outside range.\n");
                 return -1;
             }
-        } else if (!strcmp(argv[i], "-p") || !strcmp(argv[i], "--port")) {
+        }
+        else if (!strcmp(argv[i], "-p") || !strcmp(argv[i], "--port")) {
             i++;
             if (outPort != -1) {
                 printf("Error! multiple ports specified.\n");
@@ -449,42 +459,39 @@ int main(int argc, char* argv[])
                 printf("Error! port specified outside range.\n");
                 return -1;
             }
-        } else if (!strcmp(argv[i], "-f") || !strcmp(argv[i], "--file")) {
+        }
+        else if (!strcmp(argv[i], "-f") || !strcmp(argv[i], "--file")) {
             i++;
             if (!strFile.empty()) {
                 printf("Error! multiple files specified.\n");
                 return -1;
-            } else if (i < argc) {
+            }
+            else if (i < argc) {
                 strFile = argv[i];
             }
             else {
                 printf("Error! no file specified.\n");
                 return -1;
             }
-        } else if (argv[i][0] == '-') {
-            printf("Error! unknown argument '%s'.\n", argv[i] );
+        }
+        else if (argv[i][0] == '-') {
+            printf("Error! unknown argument '%s'.\n", argv[i]);
             return -1;
-        } else {
+        }
+        else {
             if (!strFile.empty()) {
                 printf("Error! multiple files specified.\n");
                 return -1;
-            } else {
+            }
+            else {
                 strFile = argv[i];
             }
         }
     }
 
-    if (outType == -1) {
-        outType = 0;
-    }
-
-    if (outCard == -1) {
-        outCard = 0;
-    }
-
-    if (outDevice == -1) {
-        outDevice = 0;
-    }
+    if (outType == -1) outType = 0;
+    if (outCard == -1) outCard = 0;
+    if (outDevice == -1) outDevice = 0;
 
     if (strFile.empty()) {
         printf("Error! no file specified.\n");
@@ -493,7 +500,21 @@ int main(int argc, char* argv[])
 
     _bstr_t bstrFile = strFile.c_str();
 
-    printf("Opening '%s'\n", strFile.c_str());
+    printf("Opening '%s' for playback on %d", strFile.c_str(), outCard);
+    if (outType) printf(":%d", outDevice);
+    switch (outPort) {
+    case 0:  printf(" ANALOG\n");  break;
+    case 1:  printf(" HDMI\n");    break;
+    case 2:  printf(" SDI1\n");    break;
+    case 3:  printf(" SDI2\n");    break;
+    case 4:  printf(" SDI3\n");    break;
+    case 5:  printf(" SDI4\n");    break;
+    case 6:  printf(" SDI5\n");    break;
+    case 7:  printf(" SDI6\n");    break;
+    case 8:  printf(" SDI7\n");    break;
+    case 9:  printf(" SDI8\n");    break;
+    default: printf(" UNKNOWN\n"); break;
+    }
 
     //printf("Building graph...\n");
     HRESULT hr = BuildGraph(graph, outType, outCard, outDevice, outPort, bstrFile);
