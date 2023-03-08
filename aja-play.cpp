@@ -222,7 +222,7 @@ HRESULT BuildGraph(IGraphBuilder* pGraph, int outType, int outCard, int outDevic
     CComPtr<IBaseFilter> pAJARendererKona3G;
 
     if (outType == 0) {
-        switch (outDevice) {
+        switch (outCard) {
         case 0:
             hr = pAJARendererKona3G.CoCreateInstance(CLSID_AJAAVRenderKona3G0);
             break;
@@ -236,15 +236,13 @@ HRESULT BuildGraph(IGraphBuilder* pGraph, int outType, int outCard, int outDevic
             hr = pAJARendererKona3G.CoCreateInstance(CLSID_AJAAVRenderKona3G3);
             break;
         default:
-            printf("Output %d is not valid.\n", outDevice);
+            printf("Output %d is not valid.\n", outCard);
             return E_INVALIDARG;
         }
 
         CHECK_HR(hr, _T("Can't create AJA Renderer Kona3G"));
     } else {
-        outCard *= 2;
-        outCard += outDevice;
-        switch (outCard) {
+        switch (outCard*2+outDevice) {
         case 0:
             hr = pAJARendererKona3G.CoCreateInstance(CLSID_AJAMRendererKona3G00);
             break;
@@ -270,7 +268,7 @@ HRESULT BuildGraph(IGraphBuilder* pGraph, int outType, int outCard, int outDevic
             hr = pAJARendererKona3G.CoCreateInstance(CLSID_AJAMRendererKona3G31);
             break;
         default:
-            printf("Output %d is not valid.\n", outDevice);
+            printf("Output %d:%d is not valid.\n", outCard, outDevice);
             return E_INVALIDARG;
         }
 
@@ -311,6 +309,9 @@ HRESULT BuildGraph(IGraphBuilder* pGraph, int outType, int outCard, int outDevic
             case 9:
                 pAJAMultiRender->SetVideoOutput(DS_OUTPUTDESTINATION_SDI8);
                 break;
+            default:
+                printf("Port %d is not valid.\n", outPort);
+                return E_INVALIDARG;
         }
     }
 
